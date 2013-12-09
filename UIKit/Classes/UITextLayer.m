@@ -147,14 +147,14 @@
             [self addNSView];
         }
         
-        UIWindow *window = [containerView window];
+        UIWindow *window = [(UIView *)containerView window];
         const CGRect windowRect = [window convertRect:self.frame fromView:containerView];
         const CGRect screenRect = [window convertRect:windowRect toWindow:nil];
         NSRect desiredFrame = NSRectFromCGRect(screenRect);
 
         [clipView setFrame:desiredFrame];
         [self updateScrollViewContentSize];
-        clipView.layer.geometryFlipped = YES;
+        clipView.layer.geometryFlipped = NO;
     } else {
         [self removeNSView];
     }
@@ -413,9 +413,7 @@
 
 - (BOOL)becomeFirstResponder
 {
-    if ([self shouldBeVisible] && ![clipView superview]) {
-        [self addNSView];
-    }
+    [self updateNSViews];
     
     changingResponderStatus = YES;
     const BOOL result = [[textView window] makeFirstResponder:textView];

@@ -50,6 +50,7 @@ NSMutableArray *_allScreens = nil;
 @implementation UIScreen
 @synthesize currentMode=_currentMode;
 @synthesize UIKitView = _UIKitView;
+@synthesize overscanCompensation;
 
 + (void)initialize
 {
@@ -241,6 +242,11 @@ NSMutableArray *_allScreens = nil;
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; bounds = %@; mode = %@>", [self className], self, NSStringFromCGRect(self.bounds), self.currentMode];
+}
+
+- (UIScreen *)mirroredScreen
+{
+    return nil;
 }
 
 @end
