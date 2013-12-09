@@ -48,7 +48,7 @@ NSString *const UITextFieldTextDidEndEditingNotification = @"UITextFieldTextDidE
 @synthesize delegate=_delegate, background=_background, disabledBackground=_disabledBackground, editing=_editing, clearsOnBeginEditing=_clearsOnBeginEditing;
 @synthesize adjustsFontSizeToFitWidth=_adjustsFontSizeToFitWidth, clearButtonMode=_clearButtonMode, leftView=_leftView, rightView=_rightView;
 @synthesize leftViewMode=_leftViewMode, rightViewMode=_rightViewMode, placeholder=_placeholder, borderStyle=_borderStyle;
-@synthesize inputAccessoryView=_inputAccessoryView, inputView=_inputView;
+@synthesize inputAccessoryView=_inputAccessoryView, inputView=_inputView, minimumFontSize=_minimumFontSize;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -194,6 +194,11 @@ NSString *const UITextFieldTextDidEndEditingNotification = @"UITextFieldTextDidE
     }
 }
 
+- (void)setHidden:(BOOL)hidden
+{
+    [super setHidden:hidden];
+    [_textLayer setHidden:hidden];
+}
 
 - (CGRect)borderRectForBounds:(CGRect)bounds
 {
@@ -287,6 +292,12 @@ NSString *const UITextFieldTextDidEndEditingNotification = @"UITextFieldTextDidE
 
 - (void)drawPlaceholderInRect:(CGRect)rect
 {
+    // inset the rect by the offset required to vertically centre the text
+    CGFloat fontHeight = self.font.ascender + self.font.xHeight;
+    CGRect placeholderRect = CGRectInset(rect, 0, (rect.size.height - fontHeight) / 2);
+    
+    [[UIColor colorWithWhite:0.7 alpha:1.0] set];
+    [self->_placeholder drawInRect:placeholderRect withFont:self.font];
 }
 
 - (void)drawTextInRect:(CGRect)rect
@@ -297,6 +308,10 @@ NSString *const UITextFieldTextDidEndEditingNotification = @"UITextFieldTextDidE
 {
     UIImage *background = self.enabled? _background : _disabledBackground;
     [background drawInRect:self.bounds];
+    
+    if ([self.text length] == 0) {
+        [self drawPlaceholderInRect:[self placeholderRectForBounds:self.bounds]];
+    }
 }
 
 
