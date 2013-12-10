@@ -188,6 +188,5 @@ typedef enum {
 @property (nonatomic, getter=isEditing) BOOL editing;
 @property (nonatomic) CGFloat sectionHeaderHeight;
 @property (nonatomic) CGFloat sectionFooterHeight;
-@property (nonatomic, retain) UIView * backgroundView;
 
 @end

@@ -49,6 +49,8 @@ typedef enum {
     __unsafe_unretained UIKitView *_UIKitView;
     UIScreenMode *_currentMode;
     __unsafe_unretained UIPopoverController *_popoverController;
+    UIScreenOverscanCompensation _overscanCompensation;
+    CGFloat _brightness;
 }
 
 + (UIScreen *)mainScreen;
