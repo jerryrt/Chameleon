@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MediaPlayer/MPMediaPlayback.h>
-#import <QTKit/QTKit.h>
-
+#import <AVFoundation/AVFoundation.h>
 enum {
     MPMovieLoadStateUnknown        = 0,
     MPMovieLoadStatePlayable       = 1 << 0,
@@ -108,7 +107,7 @@ extern NSString *const MPMoviePlayerControllerVolumeSetting;
 
 @property(nonatomic, readonly) NSTimeInterval duration;
 @property(nonatomic) MPMovieScalingMode scalingMode;
-@property(nonatomic, readonly) QTMovie* movie;
+@property(nonatomic, readonly) AVPlayer* movie;
 
 - (id)initWithContentURL: (NSURL*)url;
 

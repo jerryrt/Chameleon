@@ -7,7 +7,7 @@
 //
 
 #import "MPMoviePlayerCtrlPanel.h"
-#import "UIImage+QTKitImage.h"
+#import "UIImage+MP.h"
 #import "MPMovieCtrlBackground.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -74,7 +74,7 @@
     playerButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
     playerButton.frame = playerButtonFrame;
     playerButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    UIImage* playIcon = [UIImage QTKitImageWithName:@"chameleon_qtmovie_play.png"];
+    UIImage* playIcon = [UIImage MPImageWithName:@"chameleon_qtmovie_play.png"];
 //    UIImage* pauseIcon = [UIImage QTKitImageWithName:@"chameleon_qtmovie_pauses.png"];
     [playerButton setImage:playIcon forState:UIControlStateNormal];
 //    [playerButton setImage:pauseIcon forState:UIControlStateSelected];
@@ -84,8 +84,8 @@
     fullscreenButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
     fullscreenButton.frame = fullscreenFrame;
     fullscreenButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [fullscreenButton setImage:[UIImage QTKitImageWithName:@"chameleon_qtmovie_fullscreen.png"] forState:UIControlStateNormal];
-    [fullscreenButton setImage:[UIImage QTKitImageWithName:@"chameleon_qtmovie_unfullscreen.png"] forState:UIControlStateSelected];
+    [fullscreenButton setImage:[UIImage MPImageWithName:@"chameleon_qtmovie_fullscreen.png"] forState:UIControlStateNormal];
+    [fullscreenButton setImage:[UIImage MPImageWithName:@"chameleon_qtmovie_unfullscreen.png"] forState:UIControlStateSelected];
     [self addSubview:fullscreenButton];
 
     MPMovieProgressBar* progressBar = [[[MPMovieProgressBar alloc] initWithFrame:progressBarFrame] autorelease];

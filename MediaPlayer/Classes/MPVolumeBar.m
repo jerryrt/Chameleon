@@ -7,7 +7,7 @@
 //
 
 #import "MPVolumeBar.h"
-#import "UIImage+QTKitImage.h"
+#import "UIImage+MP.h"
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIResponderAppKitIntegration.h>
 
@@ -127,7 +127,7 @@
     
     UIImageView* volImage = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
     volImage.contentMode = UIViewContentModeScaleAspectFit;
-    volImage.image = [UIImage QTKitImageWithName:@"chameleon_qtmovie_volume-3s.png"];
+    volImage.image = [UIImage MPImageWithName:@"chameleon_qtmovie_volume-3s.png"];
     [self addSubview:volImage];
     self.volumeImage = volImage;
 
@@ -332,7 +332,7 @@
         name = @"chameleon_qtmovie_volume-1s.png";
     }
 
-    _volumeImage.image = [UIImage QTKitImageWithName:name];
+    _volumeImage.image = [UIImage MPImageWithName:name];
 
 }
 

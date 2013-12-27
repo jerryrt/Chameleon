@@ -7,7 +7,7 @@
 //
 
 #import "MPMoviePlayerHUD.h"
-#import "UIImage+QTKitImage.h"
+#import "UIImage+MP.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -138,7 +138,7 @@
     _volumeBgLayer.hidden = YES;
     [self _stopAutoHide];
 
-    _imageView.image = [UIImage QTKitImageWithName:@"chameleon_qtmovie_pause.png"];
+    _imageView.image = [UIImage MPImageWithName:@"chameleon_qtmovie_pause.png"];
 
     [self _show:NO];
 
@@ -177,7 +177,7 @@
         name = @"chameleon_qtmovie_volume-1.png";
     }
 
-    _imageView.image = [UIImage QTKitImageWithName:name];
+    _imageView.image = [UIImage MPImageWithName:name];
     
     NSUInteger vol = ceilf(v/(1.0f/MPMoviePlayerHUDVolumeMaxLevel));
     

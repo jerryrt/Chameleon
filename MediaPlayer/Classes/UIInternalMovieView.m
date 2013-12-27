@@ -8,6 +8,7 @@
 
 #import "UIInternalMovieView.h"
 
+#import <AVFoundation/AVFoundation.h>
 @interface UIInternalMovieView()
 
 @end
@@ -15,7 +16,7 @@
 @implementation UIInternalMovieView
 
 + (Class)layerClass {
-    return [QTMovieLayer class];
+    return [AVPlayerLayer class];
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -30,21 +31,20 @@
 
 }
 
-- (QTMovieLayer*)movieLayer {
-    return (QTMovieLayer*)self.layer;
+- (AVPlayerLayer*)movieLayer {
+    return (AVPlayerLayer*)self.layer;
 }
 
-- (void)setMovie:(QTMovie *)movie {
+- (void)setMovie:(AVPlayer *)movie {
 
     if( _movie ) {
-        [_movie stop];
-        [_movie invalidate];
+        [_movie pause];
         [_movie release];
-        [self.movieLayer setMovie:nil];
+        [self.movieLayer setPlayer:nil];
     }
     _movie = [movie retain];
     if( _movie ) {
-        [self.movieLayer setMovie:_movie];
+        [self.movieLayer setPlayer:_movie];
     }
 
 }

@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QTKit/QTKit.h>
 
 #import "MPMoviePlayerController.h"
 #import <UIKit/UIViewAdapter.h>
 
+@class AVPlayer;
+@class AVPlayerLayer;
+
 @interface UIInternalMovieView : UIView 
 
-@property (nonatomic, retain) QTMovie* movie;
-@property (nonatomic, readonly ) QTMovieLayer* movieLayer;
+@property (nonatomic, retain) AVPlayer * movie;
+@property (nonatomic, readonly ) AVPlayerLayer* movieLayer;
 @property (nonatomic, assign) MPMovieScalingMode scalingMode;
 
 @end

@@ -6,7 +6,7 @@
 //
 //
 
-#import <QTKit/QTKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 struct MPPlaybackTimeState {
   CGFloat percentLoaded;
@@ -19,14 +19,14 @@ struct MPPlaybackTimeState {
 typedef struct MPPlaybackTimeState MPPlaybackTimeState;
 
 
-@interface QTMovie(IdlingAdditions)
+@interface AVPlayerItem(IdlingAdditions)
 
--(QTTime)maxTimeLoaded;
+-(NSTimeInterval)maxTimeLoaded;
 -(BOOL)isPlaying;
 
 @end
 
-@interface QTMovie (PlaybackStatusAfx)
+@interface AVPlayerItem (PlaybackStatusAfx)
 
 -(NSTimeInterval)maxSecondsLoaded;
 -(NSTimeInterval)durationSecond;

@@ -11,14 +11,11 @@
 		4C16781A13C71E6200814195 /* UIInternalMovieView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C16781813C71E6200814195 /* UIInternalMovieView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C16781B13C71E6200814195 /* UIInternalMovieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C16781913C71E6200814195 /* UIInternalMovieView.m */; };
 		4C16787D13C71FB900814195 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C16787C13C71FB900814195 /* UIKit.framework */; };
-		4C16789F13C7206500814195 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C16789E13C7206500814195 /* QTKit.framework */; };
 		4C72FDF613C746E800D3E453 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C72FDF513C746E800D3E453 /* QuartzCore.framework */; };
 		7407731A16E5D8B800E92210 /* chameleon_qtmovie_volume-0.png in Resources */ = {isa = PBXBuildFile; fileRef = 7407731916E5D8B800E92210 /* chameleon_qtmovie_volume-0.png */; };
 		7407733016E5FF3800E92210 /* chameleon_qtmovie_fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 7407732F16E5FF3800E92210 /* chameleon_qtmovie_fullscreen.png */; };
 		7407736016E7432400E92210 /* MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407734A16E7432400E92210 /* MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7407736116E7432400E92210 /* MPMediaPlayback.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407734B16E7432400E92210 /* MPMediaPlayback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7407736216E7432400E92210 /* MPMovie.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407734C16E7432400E92210 /* MPMovie.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7407736316E7432400E92210 /* MPMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407734D16E7432400E92210 /* MPMovie.m */; };
 		7407736416E7432400E92210 /* MPMoviePlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407734E16E7432400E92210 /* MPMoviePlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7407736516E7432400E92210 /* MPMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407734F16E7432400E92210 /* MPMoviePlayerController.m */; };
 		7407736616E7432400E92210 /* MPMoviePlayerCtrlPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735016E7432400E92210 /* MPMoviePlayerCtrlPanel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,11 +28,10 @@
 		7407736D16E7432400E92210 /* MPMovieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735716E7432400E92210 /* MPMovieView.m */; };
 		7407736E16E7432400E92210 /* MPMusicPlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735816E7432400E92210 /* MPMusicPlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7407736F16E7432400E92210 /* MPMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735916E7432400E92210 /* MPMusicPlayerController.m */; };
-		7407737016E7432400E92210 /* QTMovie+PlaybackStatusAfx.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735A16E7432400E92210 /* QTMovie+PlaybackStatusAfx.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7407737116E7432400E92210 /* QTMovie+PlaybackStatusAfx.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735B16E7432400E92210 /* QTMovie+PlaybackStatusAfx.m */; };
-		7407737416E7432400E92210 /* UIImage+QTKitImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735E16E7432400E92210 /* UIImage+QTKitImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7407737516E7432400E92210 /* UIImage+QTKitImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735F16E7432400E92210 /* UIImage+QTKitImage.m */; };
-		7407737816E78DFF00E92210 /* MPMovieCtrlBackground.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407737616E78DFD00E92210 /* MPMovieCtrlBackground.h */; };
+		7407737116E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735B16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.m */; };
+		7407737416E7432400E92210 /* UIImage+MP.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735E16E7432400E92210 /* UIImage+MP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7407737516E7432400E92210 /* UIImage+MP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407735F16E7432400E92210 /* UIImage+MP.m */; };
+		7407737816E78DFF00E92210 /* MPMovieCtrlBackground.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407737616E78DFD00E92210 /* MPMovieCtrlBackground.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7407737916E78DFF00E92210 /* MPMovieCtrlBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 7407737716E78DFE00E92210 /* MPMovieCtrlBackground.m */; };
 		7407738316E8810C00E92210 /* chameleon_qtmovie_fullscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7407738216E8810C00E92210 /* chameleon_qtmovie_fullscreen@2x.png */; };
 		740773B416E8E0FE00E92210 /* chameleon_qtmovie_unfullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 740773B216E8E0FE00E92210 /* chameleon_qtmovie_unfullscreen.png */; };
@@ -56,6 +52,9 @@
 		74A7E81016E9C9A20044A432 /* chameleon_qtmovie_volume-1s.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A7E80B16E9C9A20044A432 /* chameleon_qtmovie_volume-1s.png */; };
 		74A7E81116E9C9A20044A432 /* chameleon_qtmovie_volume-2s.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A7E80C16E9C9A20044A432 /* chameleon_qtmovie_volume-2s.png */; };
 		74A7E81216E9C9A20044A432 /* chameleon_qtmovie_volume-3s.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A7E80D16E9C9A20044A432 /* chameleon_qtmovie_volume-3s.png */; };
+		C45687B8186C936E004873DB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C45687B7186C936E004873DB /* CoreMedia.framework */; };
+		C45687BB186C997B004873DB /* AVPlayerItem+PlaybackStatusAfx.h in Headers */ = {isa = PBXBuildFile; fileRef = 7407735A16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4935068186AC0DD0013E5A2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4935066186AC0DD0013E5A2 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,14 +76,11 @@
 		4C16781913C71E6200814195 /* UIInternalMovieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIInternalMovieView.m; path = Classes/UIInternalMovieView.m; sourceTree = "<group>"; };
 		4C16787213C71F8A00814195 /* UIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UIKit.xcodeproj; path = ../UIKit/UIKit.xcodeproj; sourceTree = "<group>"; };
 		4C16787C13C71FB900814195 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UIKit.framework; sourceTree = SOURCE_ROOT; };
-		4C16789E13C7206500814195 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		4C72FDF513C746E800D3E453 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7407731916E5D8B800E92210 /* chameleon_qtmovie_volume-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chameleon_qtmovie_volume-0.png"; sourceTree = "<group>"; };
 		7407732F16E5FF3800E92210 /* chameleon_qtmovie_fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chameleon_qtmovie_fullscreen.png; sourceTree = "<group>"; };
 		7407734A16E7432400E92210 /* MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer.h; sourceTree = "<group>"; };
 		7407734B16E7432400E92210 /* MPMediaPlayback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMediaPlayback.h; sourceTree = "<group>"; };
-		7407734C16E7432400E92210 /* MPMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMovie.h; sourceTree = "<group>"; };
-		7407734D16E7432400E92210 /* MPMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMovie.m; sourceTree = "<group>"; };
 		7407734E16E7432400E92210 /* MPMoviePlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMoviePlayerController.h; sourceTree = "<group>"; };
 		7407734F16E7432400E92210 /* MPMoviePlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMoviePlayerController.m; sourceTree = "<group>"; };
 		7407735016E7432400E92210 /* MPMoviePlayerCtrlPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMoviePlayerCtrlPanel.h; sourceTree = "<group>"; };
@@ -97,10 +93,10 @@
 		7407735716E7432400E92210 /* MPMovieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMovieView.m; sourceTree = "<group>"; };
 		7407735816E7432400E92210 /* MPMusicPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMusicPlayerController.h; sourceTree = "<group>"; };
 		7407735916E7432400E92210 /* MPMusicPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMusicPlayerController.m; sourceTree = "<group>"; };
-		7407735A16E7432400E92210 /* QTMovie+PlaybackStatusAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QTMovie+PlaybackStatusAfx.h"; sourceTree = "<group>"; };
-		7407735B16E7432400E92210 /* QTMovie+PlaybackStatusAfx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QTMovie+PlaybackStatusAfx.m"; sourceTree = "<group>"; };
-		7407735E16E7432400E92210 /* UIImage+QTKitImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+QTKitImage.h"; sourceTree = "<group>"; };
-		7407735F16E7432400E92210 /* UIImage+QTKitImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+QTKitImage.m"; sourceTree = "<group>"; };
+		7407735A16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayerItem+PlaybackStatusAfx.h"; sourceTree = "<group>"; };
+		7407735B16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+PlaybackStatusAfx.m"; sourceTree = "<group>"; };
+		7407735E16E7432400E92210 /* UIImage+MP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MP.h"; sourceTree = "<group>"; };
+		7407735F16E7432400E92210 /* UIImage+MP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MP.m"; sourceTree = "<group>"; };
 		7407737616E78DFD00E92210 /* MPMovieCtrlBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMovieCtrlBackground.h; sourceTree = "<group>"; };
 		7407737716E78DFE00E92210 /* MPMovieCtrlBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMovieCtrlBackground.m; sourceTree = "<group>"; };
 		7407738216E8810C00E92210 /* chameleon_qtmovie_fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chameleon_qtmovie_fullscreen@2x.png"; sourceTree = "<group>"; };
@@ -123,6 +119,8 @@
 		74A7E80C16E9C9A20044A432 /* chameleon_qtmovie_volume-2s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chameleon_qtmovie_volume-2s.png"; sourceTree = "<group>"; };
 		74A7E80D16E9C9A20044A432 /* chameleon_qtmovie_volume-3s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chameleon_qtmovie_volume-3s.png"; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MediaPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C45687B7186C936E004873DB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C4935066186AC0DD0013E5A2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,8 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C45687B8186C936E004873DB /* CoreMedia.framework in Frameworks */,
+				C4935068186AC0DD0013E5A2 /* AVFoundation.framework in Frameworks */,
 				4C72FDF613C746E800D3E453 /* QuartzCore.framework in Frameworks */,
-				4C16789F13C7206500814195 /* QTKit.framework in Frameworks */,
 				4C16787D13C71FB900814195 /* UIKit.framework in Frameworks */,
 				14EFB1BB1211DB5300D19B0C /* Cocoa.framework in Frameworks */,
 			);
@@ -151,9 +150,6 @@
 		0867D691FE84028FC02AAC07 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				4C72FDF513C746E800D3E453 /* QuartzCore.framework */,
-				4C16789E13C7206500814195 /* QTKit.framework */,
-				4C16787C13C71FB900814195 /* UIKit.framework */,
 				74103FA816E22E0E0089690C /* Resources */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				4C16780A13C71DDC00814195 /* Private Classes */,
@@ -168,6 +164,10 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4C16787C13C71FB900814195 /* UIKit.framework */,
+				C45687B7186C936E004873DB /* CoreMedia.framework */,
+				C4935066186AC0DD0013E5A2 /* AVFoundation.framework */,
+				4C72FDF513C746E800D3E453 /* QuartzCore.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				14EFB1BA1211DB5300D19B0C /* Cocoa.framework */,
@@ -178,12 +178,12 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7407735A16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.h */,
+				7407735B16E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.m */,
 				7407735816E7432400E92210 /* MPMusicPlayerController.h */,
 				7407735916E7432400E92210 /* MPMusicPlayerController.m */,
 				7407734A16E7432400E92210 /* MediaPlayer.h */,
 				7407734B16E7432400E92210 /* MPMediaPlayback.h */,
-				7407734C16E7432400E92210 /* MPMovie.h */,
-				7407734D16E7432400E92210 /* MPMovie.m */,
 				7407734E16E7432400E92210 /* MPMoviePlayerController.h */,
 				7407734F16E7432400E92210 /* MPMoviePlayerController.m */,
 				7407735016E7432400E92210 /* MPMoviePlayerCtrlPanel.h */,
@@ -198,10 +198,8 @@
 				74A7E80116E9AF9C0044A432 /* MPVolumeBar.m */,
 				7407735616E7432400E92210 /* MPMovieView.h */,
 				7407735716E7432400E92210 /* MPMovieView.m */,
-				7407735A16E7432400E92210 /* QTMovie+PlaybackStatusAfx.h */,
-				7407735B16E7432400E92210 /* QTMovie+PlaybackStatusAfx.m */,
-				7407735E16E7432400E92210 /* UIImage+QTKitImage.h */,
-				7407735F16E7432400E92210 /* UIImage+QTKitImage.m */,
+				7407735E16E7432400E92210 /* UIImage+MP.h */,
+				7407735F16E7432400E92210 /* UIImage+MP.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -267,16 +265,15 @@
 				4C16781A13C71E6200814195 /* UIInternalMovieView.h in Headers */,
 				7407736016E7432400E92210 /* MediaPlayer.h in Headers */,
 				7407736116E7432400E92210 /* MPMediaPlayback.h in Headers */,
-				7407736216E7432400E92210 /* MPMovie.h in Headers */,
 				7407736416E7432400E92210 /* MPMoviePlayerController.h in Headers */,
 				7407736616E7432400E92210 /* MPMoviePlayerCtrlPanel.h in Headers */,
 				7407736816E7432400E92210 /* MPMoviePlayerHUD.h in Headers */,
 				7407736A16E7432400E92210 /* MPMovieProgressBar.h in Headers */,
 				7407736C16E7432400E92210 /* MPMovieView.h in Headers */,
 				7407736E16E7432400E92210 /* MPMusicPlayerController.h in Headers */,
-				7407737016E7432400E92210 /* QTMovie+PlaybackStatusAfx.h in Headers */,
-				7407737416E7432400E92210 /* UIImage+QTKitImage.h in Headers */,
+				7407737416E7432400E92210 /* UIImage+MP.h in Headers */,
 				74A7E80216E9AF9C0044A432 /* MPVolumeBar.h in Headers */,
+				C45687BB186C997B004873DB /* AVPlayerItem+PlaybackStatusAfx.h in Headers */,
 				7407737816E78DFF00E92210 /* MPMovieCtrlBackground.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +289,7 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
+				C45687B9186C9624004873DB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -376,21 +374,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C45687B9186C9624004873DB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -rv $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME $PROJECT_DIR/../../Chameleon-build/Release/\ncp -rv $BUILT_PRODUCTS_DIR/$DWARF_DSYM_FILE_NAME $PROJECT_DIR/../../Chameleon-build/Release/";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4C16781B13C71E6200814195 /* UIInternalMovieView.m in Sources */,
-				7407736316E7432400E92210 /* MPMovie.m in Sources */,
 				7407736516E7432400E92210 /* MPMoviePlayerController.m in Sources */,
 				7407736716E7432400E92210 /* MPMoviePlayerCtrlPanel.m in Sources */,
 				7407736916E7432400E92210 /* MPMoviePlayerHUD.m in Sources */,
 				7407736B16E7432400E92210 /* MPMovieProgressBar.m in Sources */,
 				7407736D16E7432400E92210 /* MPMovieView.m in Sources */,
 				7407736F16E7432400E92210 /* MPMusicPlayerController.m in Sources */,
-				7407737116E7432400E92210 /* QTMovie+PlaybackStatusAfx.m in Sources */,
-				7407737516E7432400E92210 /* UIImage+QTKitImage.m in Sources */,
+				7407737116E7432400E92210 /* AVPlayerItem+PlaybackStatusAfx.m in Sources */,
+				7407737516E7432400E92210 /* UIImage+MP.m in Sources */,
 				7407737916E78DFF00E92210 /* MPMovieCtrlBackground.m in Sources */,
 				74A7E80316E9AF9C0044A432 /* MPVolumeBar.m in Sources */,
 			);
@@ -406,6 +419,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -422,6 +436,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = MediaPlayer;
+				SDKROOT = macosx;
 				SYMROOT = ../build;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;
@@ -452,6 +467,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = MediaPlayer;
+				SDKROOT = macosx;
 				SYMROOT = ../build;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;

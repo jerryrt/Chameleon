@@ -6,14 +6,16 @@
 //  Copyright 2011 Digital Flapjack Ltd. All rights reserved.
 //
 
+#import <AppKit/AppKit.h>
+#import <AVFoundation/AVFoundation.h>
+
 #import "MPMoviePlayerController.h"
 #import "UIInternalMovieView.h"
 #import "MPMoviePlayerHUD.h"
-#import "QTMovie+PlaybackStatusAfx.h"
-#import "MPMovie.h"
+//#import "QTMovie+PlaybackStatusAfx.h"
 #import "MPMoviePlayerCtrlPanel.h"
 #import "MPMovieView.h"
-#import "UIImage+QTKitImage.h"
+#import "UIImage+MP.h"
 
 #define DOUBLE_CLICK_DELAY 0.64f
 
@@ -88,7 +90,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
     return (nil != _fullscreenHost);
 }
 
-- (QTMovie*)movie {
+- (AVPlayer*)movie {
     return _movieView.movie;
 }
 
@@ -221,20 +223,19 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
     
     if( _contentURL ) {
     
-        [self _registerEvents];
         
         self.movieSourceType = MPMovieSourceTypeUnknown;
         self.playbackState = MPMoviePlaybackStateStopped;
         
-        NSError *error = nil;
-        QTMovie * movie = [[MPMovie alloc] initWithURL: _contentURL error: &error];
+        AVPlayer * movie = [[AVPlayer alloc] initWithURL: _contentURL];
         if( movie ) {
-            [movie setAttribute: @(_repeatMode == MPMovieRepeatModeOne)
-                      forKey: QTMovieLoopsAttribute];
+//            [movie setAttribute: @(_repeatMode == MPMovieRepeatModeOne)
+//                      forKey: QTMovieLoopsAttribute];
             _movieView.movie = movie;
             [movie release];
-        }        
+        }
         
+        [self _registerEvents];
     } else {
          _movieView.movie = nil;
     }
@@ -246,8 +247,8 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 - (void)setRepeatMode:(MPMovieRepeatMode)repeatMode
 {
     _repeatMode = repeatMode;
-    [self.movie setAttribute: @(repeatMode == MPMovieRepeatModeOne)
-                      forKey: QTMovieLoopsAttribute];
+//    [self.movie setAttribute: @(repeatMode == MPMovieRepeatModeOne)
+//                      forKey: QTMovieLoopsAttribute];
 }
 
 
@@ -255,170 +256,81 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 //
 - (NSTimeInterval)duration
 {
-    return [self.movie durationSecond];
+    return CMTimeGetSeconds(self.movie.currentItem.duration);
 }
 
+- (NSTimeInterval)currentTime
+{
+    return CMTimeGetSeconds(self.movie.currentItem.currentTime);
+}
+
+- (CGFloat) percentPlayed {
+    NSTimeInterval dur = [self duration];
+    if (dur>0)
+        return [self currentTime]/dur;
+    
+    return 0.0f;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 - (MPMovieLoadState)loadState
 {    
-    NSNumber* loadState = [self.movie attributeForKey: QTMovieLoadStateAttribute];
+//    NSNumber* loadState = [self.movie attributeForKey: QTMovieLoadStateAttribute];
+    
+    AVPlayerStatus playerStatus = AVPlayerStatusUnknown;
+    if (self.movie.currentItem) {
+        playerStatus = self.movie.status;
+    }
     
     MPMovieLoadState mpLoadState = MPMovieLoadStateUnknown;
     
-    switch ([loadState intValue]) {
-        case QTMovieLoadStateError:            
-        {
-            NSLog(@"woo");
-            NSNumber *stopCode = [NSNumber numberWithInt: MPMovieFinishReasonPlaybackError];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject: stopCode
-                                                                 forKey: MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-            
-            // if there's a loading error we generate a stop notification
-            [[NSNotificationCenter defaultCenter] postNotificationName: MPMoviePlayerPlaybackDidFinishNotification
-                                                                object: self 
-                                                              userInfo: userInfo];
-            
-            
-            mpLoadState = MPMovieLoadStateUnknown;                        
-        }
+    //TODO
+    //MPMovieLoadStatePlaythroughOK is not mapped, how?
+    switch (playerStatus) {
+        case AVPlayerStatusFailed:
+            mpLoadState = MPMovieLoadStateUnknown;
             break;
-
-        
-        
-        case QTMovieLoadStateLoading:             
-            mpLoadState = MPMovieLoadStateUnknown;            
-            break;
-            
-    
-        
-        case QTMovieLoadStateLoaded:            
-            // we have the meta data, so post the duration available notification
-            [[NSNotificationCenter defaultCenter] postNotificationName: MPMovieDurationAvailableNotification
-                                                                object: self];
-            
-            mpLoadState = MPMovieLoadStateUnknown;            
-            break;
-            
-        case QTMovieLoadStatePlayable:
+        case AVPlayerStatusReadyToPlay:
             mpLoadState = MPMovieLoadStatePlayable;
             break;
-            
-        case QTMovieLoadStatePlaythroughOK:
-            mpLoadState = MPMovieLoadStatePlaythroughOK;            
+        case AVPlayerStatusUnknown:
+            mpLoadState = MPMovieLoadStateUnknown;
             break;
-            
-        case QTMovieLoadStateComplete:
-            mpLoadState = MPMovieLoadStatePlaythroughOK;
-            
-            break;                                
+    }
+    
+    if (playerStatus == AVPlayerStatusReadyToPlay && [self percentPlayed] >= 1.0f) {
+        mpLoadState = MPMovieLoadStatePlaythroughOK;
     }
     
     return mpLoadState;
 }
 
 
-#pragma mark - notifications
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-- (void)_didEndOccurred: (NSNotification*)notification
-{
-    if (notification.object != self.movie)
-        return;
-
-    self.playbackState = MPMoviePlaybackStateStopped;
-        
-    NSNumber *stopCode = [NSNumber numberWithInt: MPMovieFinishReasonPlaybackEnded];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject: stopCode
-                                                         forKey: MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: MPMoviePlayerPlaybackDidFinishNotification
-                                                        object: self
-                                                      userInfo: userInfo];
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-- (void)_loadStateChangeOccurred: (NSNotification*)notification
-{
-    QTMovie* movie = self.movie;
-    id obj = notification.object;
-    if( obj != movie )
-        return;
-
-    [self _startCheckProgress];
-    [[NSNotificationCenter defaultCenter] postNotificationName: MPMoviePlayerLoadStateDidChangeNotification
-                                                        object: self];
-}
 
 - (void)setAutoHideControl:(BOOL)autoHideControl {
-
+    
     if( _autoHideControl != autoHideControl ) {
         _autoHideControl = autoHideControl;
-        if( [self.movie isPlaying] ) {
+        if( self.movie) {
             _normalHost.autoHide = _autoHideControl;
             _fullscreenHost.autoHide = _autoHideControl;
         }
     }
-
-}
-
-- (void)_playRateDidChanged:(NSNotification*)n {
-
-    QTMovie* movie = self.movie;
-    if (n.object != movie)
-        return;
-//    NSNumber* rate = [n.userInfo objectForKey:QTMovieRateDidChangeNotificationParameter];
-//    if( [rate boolValue] ) {
-
-    if( [movie isPlaying] ) {
-         // private method isPlaying is more acurrate
-        [self _startCheckProgress];
-        self.playbackState = MPMoviePlaybackStatePlaying;
-        
-        CGFloat vol = [[NSUserDefaults standardUserDefaults] floatForKey:MPMoviePlayerControllerVolumeSetting];
-        if( ABS(vol-movie.volume)>0.05 ) {
-            movie.volume = vol;
-            _controlView.volumeBar.volume = vol;
-        }
-        
-        _normalHost.autoHide = _autoHideControl;
-        _fullscreenHost.autoHide = _autoHideControl;
-        
-    } else {
-        if( [movie percentPlayed] < 1 ) {
-            self.playbackState = MPMoviePlaybackStatePaused;
-        }
-        _normalHost.autoHide = NO;
-        _fullscreenHost.autoHide = NO;
-    }
-
-}
-
-- (void)_volumeDidChange:(NSNotification*)n {
-
-    QTMovie* movie = self.movie;
-    if (n.object != movie)
-        return;
-    CGFloat vol = movie.volume;
     
-    _controlView.volumeBar.volume = vol;
-    [[NSUserDefaults standardUserDefaults] setFloat:vol forKey:MPMoviePlayerControllerVolumeSetting];
 }
+#pragma mark - notifications
+
+
+
 
 - (void)_windowDidClosed:(NSNotification*)n {
 
     NSWindow* win = [self NSWindow];
     if( n.object == win ) {
-        QTMovie* movie = self.movie;
-        if( [movie isPlaying] ) {
+        if( self.movie.rate != 0) {
             _didPauseVideoForWindowClose = YES;
-            [movie stop];
+            [self.movie pause];
         }
     }
 
@@ -427,9 +339,8 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 - (void)_windowDidBecomeMain:(NSNotification*)n {
     NSWindow* win = [self NSWindow];
     if( n.object == win ) {
-        QTMovie* movie = self.movie;
-        if( ![movie isPlaying] && _didPauseVideoForWindowClose ) {
-            [movie autoplay];
+        if( self.movie.rate == 0 && _didPauseVideoForWindowClose ) {
+            [self.movie play];
         }
         _didPauseVideoForWindowClose = NO;
     }
@@ -443,29 +354,20 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
     }
 }
 
-#pragma mark - constructor/destructor
+#pragma mark - event register/unregister
 
 - (void)_registerEvents {
+    if (nil == self.movie)
+        return;
+    
+    const int KVO_OPT = NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld;
+    [self.movie addObserver:self forKeyPath:@"rate" options:KVO_OPT context:nil];
+    [self.movie addObserver:self forKeyPath:@"volume" options:KVO_OPT context:nil];
+    [self.movie addObserver:self forKeyPath:@"currentItem" options:KVO_OPT context:nil];
+    [self.movie addObserver:self forKeyPath:@"status" options:KVO_OPT context:nil];
+    
+    
     NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
-    
-    [defaultCenter addObserver: self
-                      selector: @selector(_loadStateChangeOccurred:)
-                          name: QTMovieLoadStateDidChangeNotification
-                        object: nil];
-    
-    [defaultCenter addObserver: self
-                      selector: @selector(_didEndOccurred:)
-                          name: QTMovieDidEndNotification
-                        object: nil];
-    
-    [defaultCenter addObserver: self
-                      selector: @selector(_playRateDidChanged:)
-                          name: QTMovieRateDidChangeNotification
-                        object: nil];
-    [defaultCenter addObserver: self
-                      selector: @selector(_volumeDidChange:)
-                          name: QTMovieVolumeDidChangeNotification
-                        object: nil];
     
     [defaultCenter addObserver: self
                       selector: @selector(_windowDidClosed:)
@@ -488,13 +390,115 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
     [self resignFirstResponder];
     
     NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter removeObserver:self name:QTMovieLoadStateDidChangeNotification object:nil];
-    [defaultCenter removeObserver:self name:QTMovieDidEndNotification object:nil];
-    [defaultCenter removeObserver:self name:QTMovieRateDidChangeNotification object:nil];
-    [defaultCenter removeObserver:self name:QTMovieVolumeDidChangeNotification object:nil];
+    
+    [self.movie removeObserver:self forKeyPath:@"rate"];
+    [self.movie removeObserver:self forKeyPath:@"volume"];
+    [self.movie removeObserver:self forKeyPath:@"currentItem"];
+    [self.movie removeObserver:self forKeyPath:@"status"];
+    
     [defaultCenter removeObserver:self name:NSWindowWillCloseNotification object:nil];
     [defaultCenter removeObserver:self name:NSWindowDidBecomeMainNotification object:nil];
     [defaultCenter removeObserver:self name:NSWindowWillExitFullScreenNotification object:nil];
+}
+
+- (void) _registerEventsOnPlayerItem:(AVPlayerItem *) avplayerItem {
+    //not used now, just keep it here.
+}
+
+- (void) _unregisterEventsOnPlayerItem:(AVPlayerItem *) avplayerItem {
+    //not used now, just keep it here.
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    const NSUserDefaults * ud = [NSUserDefaults standardUserDefaults];
+    const NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
+    
+    NSLog(@"%@'s keypath(%@) %@ => %@",
+          object,
+          keyPath,
+          [change objectForKey:NSKeyValueChangeOldKey],
+          [change objectForKey:NSKeyValueChangeNewKey]);
+    
+    if (object == self.movie && [@"rate" isEqualToString:keyPath]) {
+        if( self.movie.rate > 0.0f ) {
+            // private method isPlaying is more acurrate
+            [self _startCheckProgress];
+            self.playbackState = MPMoviePlaybackStatePlaying;
+            
+            CGFloat vol = [ud floatForKey:MPMoviePlayerControllerVolumeSetting];
+            if( ABS(vol-self.movie.volume)>0.05 ) {
+                self.movie.volume = vol;
+                _controlView.volumeBar.volume = vol;
+            }
+            
+            _normalHost.autoHide = _autoHideControl;
+            _fullscreenHost.autoHide = _autoHideControl;
+            
+        } else if (self.movie.rate == 0.0f) {
+            if( [self percentPlayed] < 1.0f ) {
+                self.playbackState = MPMoviePlaybackStatePaused;
+            } else if ([self percentPlayed] == 1.0f) {
+                self.playbackState = MPMoviePlaybackStateStopped;
+                
+                NSNumber *stopCode = [NSNumber numberWithInt:MPMovieFinishReasonPlaybackEnded];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:stopCode
+                                                                     forKey: MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+                
+                [nc postNotificationName:MPMoviePlayerPlaybackDidFinishNotification
+                                  object:self
+                                userInfo:userInfo];
+            }
+            
+            _normalHost.autoHide = NO;
+            _fullscreenHost.autoHide = NO;
+        } else {
+            ;
+        }
+    }
+    
+    if (object == self.movie && [@"volume" isEqualToString:keyPath]) {
+        float vol = self.movie.volume;
+        
+        _controlView.volumeBar.volume = vol;
+        [ud setFloat:vol
+              forKey:MPMoviePlayerControllerVolumeSetting];
+    }
+    
+    if (object == self.movie && [@"currentItem" isEqualToString:keyPath]) {
+        AVPlayerItem * newItem = [change objectForKey:NSKeyValueChangeNewKey];
+        AVPlayerItem * oldItem = [change objectForKey:NSKeyValueObservingOptionOld];
+        
+        [self _registerEventsOnPlayerItem:newItem];
+        [self _unregisterEventsOnPlayerItem:oldItem];
+    }
+    
+    if (object == self.movie && [@"status" isEqualToString:keyPath]) {
+        [self _startCheckProgress];
+        
+        if (self.movie.status == AVPlayerStatusReadyToPlay) {
+            
+            // we have the meta data, so post the duration available notification
+            [nc postNotificationName:MPMovieDurationAvailableNotification
+                              object:self];
+        }
+        
+        [nc postNotificationName:MPMoviePlayerLoadStateDidChangeNotification
+                           object:self];
+        
+        if (self.movie.status == AVPlayerStatusFailed) {
+            NSNumber *stopCode = [NSNumber numberWithInt:MPMovieFinishReasonPlaybackError];
+            NSDictionary *userInfo =
+                [NSDictionary dictionaryWithObject:stopCode
+                                            forKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+            
+            // if there's a loading error we generate a stop notification
+            [nc postNotificationName: MPMoviePlayerPlaybackDidFinishNotification
+                              object: self
+                            userInfo: userInfo];
+        }
+    }
+    
 }
 
 
@@ -582,7 +586,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
         case MPMoviePlaybackStateStopped:
         {
             [_hud hide];
-            UIImage* playIcon = [UIImage QTKitImageWithName:@"chameleon_qtmovie_reload.png"];
+            UIImage* playIcon = [UIImage MPImageWithName:@"chameleon_qtmovie_reload.png"];
             [_controlView.playButton setImage:playIcon forState:UIControlStateNormal];
 //            _controlView.playButton.selected = NO;
         }
@@ -590,7 +594,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
         case MPMoviePlaybackStatePaused:
         {
             [_hud showPause];
-            UIImage* playIcon = [UIImage QTKitImageWithName:@"chameleon_qtmovie_play.png"];
+            UIImage* playIcon = [UIImage MPImageWithName:@"chameleon_qtmovie_play.png"];
             [_controlView.playButton setImage:playIcon forState:UIControlStateNormal];
 //            _controlView.playButton.selected = NO;
         }
@@ -598,7 +602,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
         case MPMoviePlaybackStatePlaying:
         {
             [_hud hide];
-            UIImage* playIcon = [UIImage QTKitImageWithName:@"chameleon_qtmovie_pause.png"];
+            UIImage* playIcon = [UIImage MPImageWithName:@"chameleon_qtmovie_pause.png"];
             [_controlView.playButton setImage:playIcon forState:UIControlStateNormal];
 
 //            _controlView.playButton.selected = YES;
@@ -619,7 +623,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 //
 - (void)play
 {
-    [self.movie autoplay];
+    [self.movie play];
 //    self.playbackState = MPMoviePlaybackStatePlaying;
 }
 
@@ -628,7 +632,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 //
 - (void)pause
 {
-    [self.movie stop];
+    [self.movie pause];
 //    self.playbackState = MPMoviePlaybackStatePaused;
 }
 
@@ -642,7 +646,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 //
 - (void)stop
 {
-    [self.movie stop];
+    [self.movie pause];
 //    self.playbackState = MPMoviePlaybackStateStopped;
 }
 
@@ -703,8 +707,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 
 - (void)_changeVolumeByY:(CGFloat)y {
 
-    QTMovie* movie = self.movie;
-    float volume = [movie volume];
+    float volume = self.movie.volume;
     float newVolume = volume;
     
     BOOL reserve =[[[NSUserDefaults standardUserDefaults] objectForKey:@"com.apple.swipescrolldirection"] boolValue];
@@ -724,18 +727,17 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 
     [_hud showVolume:newVolume];
     
-    [movie setVolume:newVolume];
+    self.movie.volume = newVolume;
 }
 
 - (void)_changeTimeByX:(CGFloat)x {
 
-    QTMovie* movie = self.movie;
-    NSTimeInterval currentTime = [movie playedSeconds];
+    NSTimeInterval currentTime = [self.movie.currentItem playedSeconds];
     if (x > 20) {
-        [movie setPlayedSeconds:currentTime-0.5f];
+        [self.movie.currentItem setPlayedSeconds:currentTime-0.5f];
         [self _checkProgress];
     } else if( x < -20 ) {
-        [movie setPlayedSeconds:currentTime+0.5f];
+        [self.movie.currentItem setPlayedSeconds:currentTime+0.5f];
         [self _checkProgress];
     }
 
@@ -752,7 +754,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 
 - (void)_checkProgress {
 
-    MPPlaybackTimeState playbackTimeState = [self.movie playbackTimeState];
+    MPPlaybackTimeState playbackTimeState = [self.movie.currentItem playbackTimeState];
     [_controlView showTimeState:playbackTimeState];
 
     if( playbackTimeState.percentPlayed < 1 || playbackTimeState.percentLoaded < 1 ) {
@@ -764,7 +766,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 - (void)_progressBarDragged:(MPMovieProgressBar*)progressBar {
 
     CGFloat p = progressBar.percentPlayed;
-    [self.movie gotoPercent:p];
+    [self.movie.currentItem gotoPercent:p];
 
 }
 
@@ -783,16 +785,16 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 
 
 - (void)beginSeekingBackward {
-    QTMovie* movie = self.movie;
-    NSTimeInterval currentTime = [movie playedSeconds];
-    [movie setPlayedSeconds:currentTime-10];
+    AVPlayerItem * avItem = self.movie.currentItem;
+    NSTimeInterval currentTime = [avItem playedSeconds];
+    [avItem setPlayedSeconds:currentTime-10];
     [self _checkProgress];
 }
 
 - (void)beginSeekingForward {
-    QTMovie* movie = self.movie;
-    NSTimeInterval currentTime = [movie playedSeconds];
-    [movie setPlayedSeconds:currentTime+10];
+    AVPlayerItem * avItem = self.movie.currentItem;
+    NSTimeInterval currentTime = [avItem playedSeconds];
+    [avItem setPlayedSeconds:currentTime+10];
     [self _checkProgress];
 }
 
@@ -802,7 +804,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 
 #pragma mark - movie fullscreen
 
-- (NSWindow*)NSWindow {
+- (NSWindow*) NSWindow {
     UIWindow* window = [_normalHost window];
     UIScreen* screen = window.screen;
     UIKitView* uikit = screen.UIKitView;
@@ -813,14 +815,16 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
 - (void) _playOrStopDelayed {
     float rate = [self.movie rate];
     if (rate == 0) {
+        if (self.movie.currentItem.playedSeconds == self.movie.currentItem.durationSecond) {
+            [self.movie.currentItem setPlayedSeconds:0.0];
+        }
         [self.movie play];
     } else {
-        [self.movie stop];
+        [self.movie pause];
     }
 }
 
 - (void)_toggleFullscreen {
-
     
     if( [self isFullscreen] ) {
         // restore to prev mode
@@ -862,7 +866,7 @@ NSString *const MPMoviePlayerControllerHotKeyEvent = @"MPMoviePlayerControllerHo
         _fullscreenHost.frame = win.bounds;
         _fullscreenHost.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [win addSubview:_fullscreenHost];
-        _fullscreenHost.autoHide = [self.movie isPlaying];
+        _fullscreenHost.autoHide = (self.movie.rate != 0.0);
         [self _setupGestures:_fullscreenHost fullscreen:YES];
         _normalHost.userInteractionEnabled = NO;
         _controlView.fullscreenButton.selected = YES;

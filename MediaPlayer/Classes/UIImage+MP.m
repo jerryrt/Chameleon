@@ -6,11 +6,11 @@
 //
 //
 
-#import "UIImage+QTKitImage.h"
+#import "UIImage+MP.h"
 
-@implementation UIImage (QTKitImage)
+@implementation UIImage (MP)
 
-+ (UIImage *)QTKitImageWithName:(NSString *)name
++ (UIImage *)MPImageWithName:(NSString *)name
 {
 
     static NSMutableDictionary* CACHE = nil;

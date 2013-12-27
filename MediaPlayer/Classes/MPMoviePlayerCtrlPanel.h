@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MPMovieProgressBar.h"
 #import "MPVolumeBar.h"
-#import "QTMovie+PlaybackStatusAfx.h"
+#import "AVPlayerItem+PlaybackStatusAfx.h"
 
 @interface MPMoviePlayerCtrlPanel : UIView
 

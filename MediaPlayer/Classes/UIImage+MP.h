@@ -10,6 +10,6 @@
 
 @interface UIImage (QTKitImage)
 
-+ (UIImage *)QTKitImageWithName:(NSString *)name;
++ (UIImage *)MPImageWithName:(NSString *)name;
 
 @end

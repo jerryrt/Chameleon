@@ -6,26 +6,36 @@
 //
 //
 
-#import "QTMovie+PlaybackStatusAfx.h"
+#import "AVPlayerItem+PlaybackStatusAfx.h"
 
-@implementation QTMovie (PlaybackStatusAfx)
+@implementation AVPlayerItem (PlaybackStatusAfx)
 
 -(NSTimeInterval)maxSecondsLoaded {
-    NSTimeInterval tMaxLoaded;
-    QTGetTimeInterval([self maxTimeLoaded], &tMaxLoaded);
-    return tMaxLoaded;
+    NSArray * timeRangeArray = self.loadedTimeRanges;
+    
+    if (timeRangeArray.count <= 0)
+        return 0.0f;
+    
+    CMTimeRange aTimeRange = [[timeRangeArray objectAtIndex:0] CMTimeRangeValue];
+    
+    double startTime = CMTimeGetSeconds(aTimeRange.start);
+    double loadedDuration = CMTimeGetSeconds(aTimeRange.duration);
+    
+    // FIXME: shoule we sum up all sections to have a total playable duration,
+    // or we just use first section as whole?
+    
+//    NSLog(@"get time range, its start is %f seconds, its duration is %f seconds.", startTime, loadedDuration);
+    
+    
+    return (NSTimeInterval)(startTime + loadedDuration);
 }
 
 -(NSTimeInterval)durationSecond {
-    NSTimeInterval tDuration;
-    QTGetTimeInterval([self duration], &tDuration);
-    return tDuration;
+    return CMTimeGetSeconds(self.duration);
 }
 
 -(NSTimeInterval)playedSeconds {
-    NSTimeInterval tCurrentTime;
-    QTGetTimeInterval([self currentTime], &tCurrentTime);
-    return tCurrentTime;
+    return CMTimeGetSeconds(self.currentTime);
 }
 
 -(void)setPlayedSeconds:(NSTimeInterval)seconds {
@@ -38,19 +48,16 @@
         seconds = 0;
     }
 
-    QTTime newTime = QTMakeTimeWithTimeInterval(seconds);
-    [self setCurrentTime:newTime];
+    CMTime newTime = CMTimeMakeWithSeconds(seconds, 1);
+    [self seekToTime:newTime];
 
 }
 
 -(CGFloat)percentLoaded
 {
-    NSTimeInterval tMaxLoaded;
-    NSTimeInterval tDuration;
+    NSTimeInterval tMaxLoaded = self.maxSecondsLoaded;
+    NSTimeInterval tDuration = self.durationSecond;
     
-    QTGetTimeInterval([self duration], &tDuration);
-    QTGetTimeInterval([self maxTimeLoaded], &tMaxLoaded);
-
     if( tDuration > 0.0f ) {
         return (CGFloat) tMaxLoaded/tDuration;
     }
@@ -60,12 +67,9 @@
 
 -(CGFloat)percentPlayed {
 
-    NSTimeInterval tCurrentTime;
-    NSTimeInterval tDuration;
+    NSTimeInterval tCurrentTime = self.playedSeconds;
+    NSTimeInterval tDuration = self.durationSecond;
     
-    QTGetTimeInterval([self duration], &tDuration);
-    QTGetTimeInterval([self currentTime], &tCurrentTime);
-
     if( tDuration > 0.0f ) {
         return (CGFloat) tCurrentTime/tDuration;
     }
@@ -90,13 +94,9 @@
 
 -(MPPlaybackTimeState)playbackTimeState {
 
-    NSTimeInterval tMaxLoaded;
-    NSTimeInterval tDuration;
-    NSTimeInterval tCurrentTime;
-    
-    QTGetTimeInterval([self duration], &tDuration);
-    QTGetTimeInterval([self maxTimeLoaded], &tMaxLoaded);
-    QTGetTimeInterval([self currentTime], &tCurrentTime);
+    NSTimeInterval tMaxLoaded = self.maxSecondsLoaded;
+    NSTimeInterval tDuration = self.durationSecond;
+    NSTimeInterval tCurrentTime = self.playedSeconds;
     
     MPPlaybackTimeState state;
     state.duration = tDuration;
