@@ -167,8 +167,6 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			attributes = {
-			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "AddressBookUI" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -268,6 +266,7 @@
 				GCC_PREFIX_HEADER = AddressBookUI_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = AddressBookUI;
 				SDKROOT = macosx;
 				SYMROOT = ../build;
@@ -289,6 +288,7 @@
 				GCC_PREFIX_HEADER = AddressBookUI_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = AddressBookUI;
 				SDKROOT = macosx;
 				SYMROOT = ../build;

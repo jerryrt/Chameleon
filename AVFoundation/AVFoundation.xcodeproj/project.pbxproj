@@ -219,6 +219,7 @@
 				GCC_PREFIX_HEADER = AVFoundation_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = AVFoundation;
 				SYMROOT = ../build;
 				VALID_ARCHS = "i386 x86_64";
@@ -240,6 +241,7 @@
 				GCC_PREFIX_HEADER = AVFoundation_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = AVFoundation;
 				SYMROOT = ../build;
 				VALID_ARCHS = "i386 x86_64";
